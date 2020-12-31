@@ -80,7 +80,7 @@ pipeline {
           }
       }
 
-      stage(result build){
+      stage('result build'){
         when{
             changeset "**/result/**"
           }
@@ -97,7 +97,7 @@ pipeline {
           }
         }
       }
-      stage(result test){
+      stage('result test'){
         when{
           changeset "**/result/**"
         }
@@ -133,7 +133,7 @@ pipeline {
             }
           }
       }
-      stage(votet build){
+      stage('vote build'){
         when{
             changeset "**/vote/**"
           }
@@ -151,7 +151,7 @@ pipeline {
           }
         }
       }
-      stage(vote test){
+      stage('vote test'){
         when{
           changeset "**/vote/**"
         }
