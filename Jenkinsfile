@@ -213,6 +213,19 @@ pipeline {
       }
     }
 
+    stage('SonarQube') {
+      environment {
+        SONAR_TOKEN = '7aa152496465e11e9eea29f16169a2aa2db6e97e'
+      }
+      steps {
+        sh '''sonar-scanner \\
+  -Dsonar.organization=devopsfoo \\
+  -Dsonar.projectKey=instavote \\
+  -Dsonar.sources=. \\
+  -Dsonar.host.url=https://sonarcloud.io'''
+      }
+    }
+
   }
   post {
     always {
