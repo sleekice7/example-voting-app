@@ -202,19 +202,20 @@ pipeline {
 
       }
     }
-       stage('Sonarqube') {
-            agent any
-            environment{
-              sonarpath = tool 'SonarScanner'
+
+    stage('Sonarqube') {
+      agent any
+      environment{
+        sonarpath = tool 'SonarScanner'
+      }
+      steps {
+            echo 'Running Sonarqube Analysis..'
+            withSonarQubeEnv('sonar-instavote') {
+              sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
             }
-            steps {
-                echo 'Running Sonarqube Analysis..'
-                  withSonarQubeEnv('sonar-instavote') {
-                    sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
-                  }
-            }
-    
-    
+      }
+    }
+
     stage('Deploy to Dev') {
       agent any
       when {
@@ -224,13 +225,5 @@ pipeline {
         sh 'docker-compose up -d '
       }
     }
-
   }
-  post {
-    always {
-      echo 'Building multibranch pipeline for worker is completed..'
-    }
-
-  }
-}
 }
