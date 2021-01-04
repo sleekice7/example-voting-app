@@ -214,6 +214,7 @@ pipeline {
     }
 
     stage('SonarQube') {
+      agent any
       environment {
         SONAR_TOKEN = '7aa152496465e11e9eea29f16169a2aa2db6e97e'
       }
