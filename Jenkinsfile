@@ -207,6 +207,7 @@ pipeline {
       agent any
       tools {
         jdk "jdk11" // the name you have given the JDK installation in Global Tool Configuration
+        nodejs "NodeJS 15.5.0"
       }
       environment{
         sonarpath = tool 'SonarScanner2'
