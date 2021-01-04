@@ -202,7 +202,19 @@ pipeline {
 
       }
     }
-
+       stage('Sonarqube') {
+            agent any
+            environment{
+              sonarpath = tool 'SonarScanner'
+            }
+            steps {
+                echo 'Running Sonarqube Analysis..'
+                  withSonarQubeEnv('sonar-instavote') {
+                    sh "${sonarpath}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
+                  }
+            }
+    
+    
     stage('Deploy to Dev') {
       agent any
       when {
@@ -210,21 +222,6 @@ pipeline {
       }
       steps {
         sh 'docker-compose up -d '
-      }
-    }
-
-    stage('SonarQube') {
-      agent any
-      
-      environment {
-        SONAR_TOKEN = '7aa152496465e11e9eea29f16169a2aa2db6e97e'
-      }
-      steps {
-        sh '''sonar-scanner \\
-  -Dsonar.organization=devopsfoo \\
-  -Dsonar.projectKey=instavote \\
-  -Dsonar.sources=. \\
-  -Dsonar.host.url=https://sonarcloud.io'''
       }
     }
 
