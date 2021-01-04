@@ -205,6 +205,9 @@ pipeline {
 
     stage('Sonarqube') {
       agent any
+      tools {
+        jdk "jdk11" // the name you have given the JDK installation in Global Tool Configuration
+      }
       environment{
         sonarpath = tool 'SonarScanner'
       }
