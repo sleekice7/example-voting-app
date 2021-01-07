@@ -183,6 +183,20 @@ pipeline {
       }
     }
 
+    stage('vote integration'){
+        agent any
+        when {
+          changeset '**/vote/**'
+          branch 'master'
+        }
+        steps{
+          echo 'Running Integration Tests on vote app'
+          dir('vote'){
+            sh 'sh integration_test.sh'
+          }
+        }
+    }
+
     stage('vote-docker-package') {
       agent any
       when {
@@ -205,14 +219,12 @@ pipeline {
 
     stage('Sonarqube') {
       agent any
-/*      when{
-        branch 'master'
-      }
-*/
       tools {
         jdk "JDK11" // the name you have given the JDK installation in Global Tool Configuration
       }
-
+      when {
+        branch 'master'
+      }
       environment{
         sonarpath = tool 'SonarScanner'
       }
@@ -227,6 +239,9 @@ pipeline {
 
 
     stage("Quality Gate") {
+        when {
+          branch 'master'
+        }
         steps {
             timeout(time: 1, unit: 'HOURS') {
                 // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
