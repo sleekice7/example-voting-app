@@ -188,7 +188,8 @@ pipeline {
 /*        when{
           changeset "**/vote/**"
           branch 'master'
-        } */
+        }
+*/
         steps{
           echo 'Running Integration Tests on vote app'
           dir('vote'){
